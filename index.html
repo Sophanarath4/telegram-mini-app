@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="km" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Cheang Oun Garage - Ultra Premium</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        app: {
+                            bg: '#020611', // Ultra deep space navy
+                            card: 'rgba(16, 28, 54, 0.4)', // Glassmorphism base
+                            cardhover: 'rgba(28, 48, 86, 0.6)',
+                            blue: '#0056ff', // Electric Ford Blue
+                            bluedark: '#003bb3',
+                            light: '#e0e7ff',
+                            border: 'rgba(255, 255, 255, 0.08)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans Khmer"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 24px rgba(0, 86, 255, 0.4)',
+                        'glow-sm': '0 0 12px rgba(0, 86, 255, 0.3)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+                    },
+                    backdropBlur: {
+                        'glass': '16px',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'glass-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Telegram Mini App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        :root {
+            --tg-theme-bg-color: #020611;
+            --tg-theme-text-color: #ffffff;
+        }
+        
+        body {
+            background-color: var(--tg-theme-bg-color, #020611);
+            color: var(--tg-theme-text-color, #ffffff);
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+            font-family: 'Inter', 'Noto Sans Khmer', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 86, 255, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 86, 255, 0.05), transparent 25%);
+            background-attachment: fixed;
+        }
+        
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Smooth Page Transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            animation: fadeUpIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            padding-bottom: 100px; /* Space for bottom nav + safe area */
+        }
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeUpIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(0, 86, 255, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(0, 86, 255, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(0, 86, 255, 0.3); }
+        }
+
+        /* Premium Glass Card */
+        .glass-card {
+            background: rgba(16, 28, 54, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .glass-card:active {
+            transform: scale(0.98);
+            background: rgba(28, 48, 86, 0.5);
+        }
+
+        /* Primary Button - Electric */
+        .btn-electric {
+            background: linear-gradient(135deg, #0056ff 0%, #003bb3 100%);
+            color: white;
+            border-radius: 100px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 86, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-electric::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+        .btn-electric:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 8px rgba(0, 86, 255, 0.4);
+        }
+
+        /* Inputs */
+        .glass-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            border-color: #0056ff;
+            box-shadow: 0 0 0 3px rgba(0, 86, 255, 0.2);
+            outline: none;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Checkbox */
+        .premium-checkbox input:checked + div {
+            background: #0056ff;
+            border-color: #0056ff;
+            box-shadow: 0 0 10px rgba(0, 86, 255, 0.5);
+        }
+
+        /* Header & Nav */
+        .header-glass {
+            background: linear-gradient(to bottom, rgba(2, 6, 17, 0.95) 0%, rgba(2, 6, 17, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .nav-glass {
+            background: rgba(2, 6, 17, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Bottom Nav Active State */
+        .nav-item { position: relative; }
+        .nav-item.active { color: #0056ff; }
+        .nav-item.active i { font-weight: 900; filter: drop-shadow(0 0 8px rgba(0,86,255,0.6)); transform: translateY(-2px); transition: transform 0.3s; }
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 30px; height: 3px;
+            background: #0056ff;
+            border-radius: 0 0 4px 4px;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 10px rgba(0,86,255,0.8);
+        }
+        .nav-item.active::before { transform: translateX(-50%) scaleX(1); }
+
+        /* Typography Enhancements */
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Grid Icons Dashboard Style */
+        .dash-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .dash-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(0,86,255,0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .dash-btn:active::before { opacity: 1; }
+
+        /* Toast */
+        #toast {
+            visibility: hidden;
+            background: rgba(0, 86, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            border-radius: 100px;
+            padding: 14px 28px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 110px;
+            transform: translateX(-50%) translateY(20px) scale(0.9);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 86, 255, 0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto relative min-h-screen bg-app-bg shadow-2xl overflow-x-hidden md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
+
+    <!-- ==================== SPLASH SCREEN ==================== -->
+    <div id="splashScreen" class="fixed inset-0 z-[999] bg-app-bg flex flex-col items-center justify-center transition-all duration-700">
+        <!-- Abstract glowing background -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-app-blue rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse"></div>
+        </div>
+        
+        <div class="relative z-10 flex flex-col items-center">
+            <!-- Sleek Oval Logo -->
+            <div class="w-32 h-16 border-2 border-white rounded-[100px] flex items-center justify-center mb-8 relative" style="box-shadow: inset 0 0 20px rgba(255,255,255,0.2), 0 0 20px rgba(255,255,255,0.1);">
+                <span class="text-white text-3xl font-bold italic tracking-wider">Ford</span>
+            </div>
+            
+            <h1 class="text-4xl font-black text-white tracking-widest mb-2 text-gradient">យានដ្ឋាន ជាងអូន</h1>
+            <div class="h-[1px] w-12 bg-app-blue mb-4"></div>
+            <p class="text-app-light text-sm font-light tracking-[0.2em] uppercase mb-12">Cheang Oun Garage</p>
+            
+            <button onclick="startApp()" class="btn-electric px-12 py-4 text-base shadow-glow flex items-center gap-3">
+                ចូលប្រើប្រាស់ <i class="fas fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN HEADER ==================== -->
+    <header id="mainHeader" class="fixed top-0 w-full max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl z-50 header-glass h-20 flex items-end justify-between px-5 pb-4 hidden opacity-0 transition-opacity duration-500 pt-safe">
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-7 border-[1.5px] border-white/90 rounded-full flex items-center justify-center text-white text-[11px] font-bold italic bg-white/5">
+                Ford
+            </div>
+            <div class="flex flex-col justify-center">
+                <span class="text-base font-bold text-white tracking-wide leading-tight">យានដ្ឋាន ជាងអូន</span>
+                <span class="text-[10px] text-app-light/70 uppercase tracking-widest font-mono">Premium Service</span>
+            </div>
+        </div>
+        
+        <!-- Notification -->
+        <button class="relative text-white/90 p-2 hover:text-white transition">
+            <div class="glass-card w-10 h-10 flex items-center justify-center rounded-full border-none bg-white/5">
+                <i class="far fa-bell text-lg"></i>
+            </div>
+            <span class="absolute top-2 right-2 bg-red-500 w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)] border border-app-bg"></span>
+        </button>
+    </header>
+
+    <!-- ==================== SUB-PAGE HEADER ==================== -->
+    <header id="subHeader" class="fixed top-0 w-full max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl z-50 header-glass h-20 flex items-end justify-between px-4 pb-4 hidden pt-safe">
+        <button onclick="goBack()" class="text-white p-2">
+            <div class="glass-card w-10 h-10 flex items-center justify-center rounded-full border-none bg-white/5">
+                <i class="fas fa-chevron-left text-base"></i>
+            </div>
+        </button>
+        <h2 id="subHeaderTitle" class="text-lg font-bold text-white tracking-wide mb-2">Title</h2>
+        <div class="w-14"></div> <!-- Spacer -->
+    </header>
+
+    <main class="pt-24 min-h-screen relative z-10 hidden" id="mainContent">
+        
+        <!-- ==================== HOME PAGE ==================== -->
+        <div id="page-home" class="page active px-5 pt-2">
+            
+            <!-- Welcome Text -->
+            <div class="mb-4">
+                <h2 class="text-2xl font-light text-white">សួស្ដី, <span id="homeUserName" class="font-bold">អតិថិជន</span></h2>
+                <p class="text-xs text-app-light/60 font-mono mt-1">ត្រៀមរួចរាល់សម្រាប់ការធ្វើដំណើរ?</p>
+            </div>
+
+            <!-- Hero Banner (Cinematic) -->
+            <div class="relative w-full h-[260px] rounded-[32px] overflow-hidden mb-8 shadow-glass group">
+                <img src="https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <!-- Advanced Gradients for depth -->
+                <div class="absolute inset-0 bg-gradient-to-r from-app-bg via-app-bg/80 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-app-bg via-transparent to-transparent opacity-80"></div>
+                
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-[9px] text-white tracking-widest uppercase mb-3">
+                        Ford Performance
+                    </div>
+                    <h3 class="text-3xl font-black text-white uppercase tracking-wider mb-4 text-shadow-sm leading-none">BUILT FOR<br>MORE</h3>
+                    <button onclick="navTo('booking')" class="btn-electric px-6 py-2.5 text-xs inline-flex items-center gap-2">
+                        កក់សេវាកម្មឥឡូវនេះ <i class="fas fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid (6 Buttons) -->
+            <h3 class="text-sm font-bold text-white/90 mb-4 px-1 uppercase tracking-wider text-xs">សេវាកម្មរហ័ស</h3>
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <!-- 1 -->
+                <button onclick="navToSub('service', 'សេវាកម្មរថយន្ត')" class="glass-card dash-btn p-4 flex flex-col items-center justify-center gap-3 aspect-[4/5]">
+                    <div class="w-12 h-12 rounded-full bg-app-blue/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-wrench text-2xl text-app-blue"></i>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs font-bold text-white">សេវាកម្ម</span>
+                        <span class="text-[9px] text-app-light/50 uppercase mt-0.5 font-mono">Service</span>
+                    </div>
+                </button>
+                <!-- 2 -->
+                <button onclick="navToSub('maintenance', 'វិធីថែទាំ')" class="glass-card dash-btn p-4 flex flex-col items-center justify-center gap-3 aspect-[4/5]">
+                    <div class="w-12 h-12 rounded-full bg-app-blue/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-cog text-2xl text-app-blue"></i>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs font-bold text-white">វិធីថែទាំ</span>
+                        <span class="text-[9px] text-app-light/50 uppercase mt-0.5 font-mono">Maint.</span>
+                    </div>
+                </button>
+                <!-- 3 -->
+                <button onclick="navTo('parts')" class="glass-card dash-btn p-4 flex flex-col items-center justify-center gap-3 aspect-[4/5]">
+                    <div class="w-12 h-12 rounded-full bg-app-blue/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-box-open text-2xl text-app-blue"></i>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[11px] font-bold text-white">គ្រឿងបន្លាស់</span>
+                        <span class="text-[9px] text-app-light/50 uppercase mt-0.5 font-mono">Parts</span>
+                    </div>
+                </button>
+                <!-- 4 -->
+                <button onclick="navToSub('contact', 'ទំនាក់ទំនង')" class="glass-card dash-btn p-4 flex flex-col items-center justify-center gap-3 aspect-[4/5]">
+                    <div class="w-12 h-12 rounded-full bg-app-blue/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-headset text-2xl text-app-blue"></i>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs font-bold text-white">ទំនាក់ទំនង</span>
+                        <span class="text-[9px] text-app-light/50 uppercase mt-0.5 font-mono">Contact</span>
+                    </div>
+                </button>
+                <!-- 5 -->
+                <button onclick="navToSub('location', 'ទីតាំង')" class="glass-card dash-btn p-4 flex flex-col items-center justify-center gap-3 aspect-[4/5]">
+                    <div class="w-12 h-12 rounded-full bg-app-blue/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-map-marker-alt text-2xl text-app-blue"></i>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs font-bold text-white">ទីតាំង</span>
+                        <span class="text-[9px] text-app-light/50 uppercase mt-0.5 font-mono">Location</span>
+                    </div>
+                </button>
+                <!-- 6 -->
+                <button onclick="navToSub('knowledge', 'ចំណេះដឹង')" class="glass-card dash-btn p-4 flex flex-col items-center justify-center gap-3 aspect-[4/5]">
+                    <div class="w-12 h-12 rounded-full bg-app-blue/10 flex items-center justify-center mb-1">
+                        <i class="fas fa-book-open text-2xl text-app-blue"></i>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs font-bold text-white">ចំណេះដឹង</span>
+                        <span class="text-[9px] text-app-light/50 uppercase mt-0.5 font-mono">Guide</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Profile Alert (if data missing) -->
+            <div id="setupProfileBanner" class="glass-card p-5 mb-8 flex justify-between items-center cursor-pointer hidden border-app-blue/40" style="box-shadow: 0 0 20px rgba(0,86,255,0.1) inset;" onclick="navTo('profile')">
+                <div class="flex items-center gap-4">
+                    <div class="relative w-12 h-12 rounded-full bg-app-blue flex items-center justify-center shadow-glow-sm">
+                        <i class="fas fa-car text-white text-lg"></i>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-app-bg animate-pulse"></span>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white">បំពេញព័ត៌មានរថយន្ត</h4>
+                        <p class="text-[10px] text-app-light/70 mt-1">ងាយស្រួលកក់សេវាកម្មលើកក្រោយ</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right text-app-blue"></i>
+            </div>
+
+            <!-- Promo Banner -->
+            <div class="relative w-full h-[150px] rounded-3xl overflow-hidden glass-card flex items-center px-6">
+                <div class="absolute right-0 top-0 bottom-0 w-3/5">
+                    <img src="https://images.unsplash.com/photo-1635832707632-411a7667bfce?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover mix-blend-screen opacity-50">
+                    <div class="absolute inset-0 bg-gradient-to-l from-transparent via-app-bg/50 to-app-card"></div>
+                </div>
+                <div class="relative z-10 max-w-[65%]">
+                    <div class="w-10 h-5 border border-white/40 rounded-full flex items-center justify-center text-white text-[9px] font-bold italic mb-3">
+                        Ford
+                    </div>
+                    <h4 class="text-base font-black text-white tracking-wider text-gradient mb-1">GENUINE PARTS</h4>
+                    <p class="text-[10px] text-app-light/80 font-mono mb-4">100% ORIGINAL & WARRANTY</p>
+                    <button onclick="navTo('parts')" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2 rounded-full text-[10px] font-bold transition">ស្វែងយល់បន្ថែម</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== BOOKING PAGE (កក់សេវា) ==================== -->
+        <div id="page-booking" class="page px-5 pt-2">
+            <!-- Sleek Stepper -->
+            <div class="flex items-center justify-between mb-10 px-6 relative">
+                <div class="absolute left-12 right-12 top-4 h-[2px] bg-white/10 -z-10 rounded-full"></div>
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center gap-3 z-10">
+                    <div class="w-8 h-8 rounded-full bg-app-blue text-white flex items-center justify-center text-xs font-bold shadow-glow ring-4 ring-app-bg">1</div>
+                    <span class="text-[9px] text-app-blue font-bold uppercase tracking-wider">រថយន្ត</span>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center gap-3 z-10">
+                    <div class="w-8 h-8 rounded-full glass-card border-none text-white/50 flex items-center justify-center text-xs font-bold ring-4 ring-app-bg">2</div>
+                    <span class="text-[9px] text-white/50 uppercase tracking-wider">សេវាកម្ម</span>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center gap-3 z-10">
+                    <div class="w-8 h-8 rounded-full glass-card border-none text-white/50 flex items-center justify-center text-xs font-bold ring-4 ring-app-bg">3</div>
+                    <span class="text-[9px] text-white/50 uppercase tracking-wider">បញ្ជាក់</span>
+                </div>
+            </div>
+
+            <!-- Vehicle Card Selector -->
+            <div class="glass-card p-5 flex items-center justify-between mb-8 cursor-pointer hover:bg-white/5 transition" onclick="navTo('profile')">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-12 bg-white/5 rounded-xl overflow-hidden p-1 border border-white/10">
+                         <img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=100&q=80" class="w-full h-full object-cover rounded-lg">
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-white mb-1" id="bookingVehicleName">Ford Ranger</h4>
+                        <div class="inline-block px-2 py-0.5 bg-app-blue/20 border border-app-blue/30 rounded text-[10px] text-app-light font-mono" id="bookingVehiclePlate">--/--</div>
+                    </div>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                    <i class="fas fa-pen text-white/50 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Service Selection -->
+            <h3 class="text-sm font-bold text-white/90 mb-4 px-1 uppercase tracking-wider text-xs">ជ្រើសរើសសេវាកម្ម</h3>
+            <div class="space-y-3 mb-8" id="bookingServiceCheckboxes">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Date & Time -->
+            <h3 class="text-sm font-bold text-white/90 mb-4 px-1 uppercase tracking-wider text-xs">ថ្ងៃ និងម៉ោង</h3>
+            <div class="grid grid-cols-2 gap-4 mb-10">
+                <div class="relative">
+                    <i class="far fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-app-blue"></i>
+                    <input type="date" id="bookDate" class="glass-input w-full py-4 pl-12 pr-4 text-sm font-mono appearance-none">
+                </div>
+                <div class="relative">
+                    <i class="far fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-app-blue"></i>
+                    <input type="time" id="bookTime" class="glass-input w-full py-4 pl-12 pr-4 text-sm font-mono appearance-none">
+                </div>
+            </div>
+
+            <button onclick="submitBooking()" class="w-full btn-electric py-4 text-sm shadow-glow flex items-center justify-center gap-2">
+                បញ្ជាក់ការកក់សេវាកម្ម <i class="fas fa-check-circle ml-1"></i>
+            </button>
+        </div>
+
+        <!-- ==================== PARTS PAGE ==================== -->
+        <div id="page-parts" class="page px-5 pt-2">
+            <!-- Search -->
+            <div class="relative mb-8">
+                <input type="text" placeholder="ស្វែងរកគ្រឿងបន្លាស់..." class="glass-input w-full py-4 pl-14 pr-4 text-sm focus:outline-none placeholder-white/40">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-white/50 text-lg"></i>
+            </div>
+
+            <!-- Parts Categories -->
+            <div class="space-y-3" id="partsCategoryList">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- ==================== PROFILE PAGE ==================== -->
+        <div id="page-profile" class="page px-5 pt-2">
+            <!-- User Digital ID -->
+            <div class="glass-card p-6 mb-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-app-blue/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                
+                <div class="flex items-center gap-5 relative z-10">
+                    <div class="w-20 h-20 rounded-[20px] bg-gradient-to-br from-app-blue to-bluedark p-[2px] shadow-glow-sm">
+                        <div class="w-full h-full bg-app-bg rounded-[18px] flex items-center justify-center text-3xl text-app-blue overflow-hidden">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-1" id="profileNameDisplay">អតិថិជន</h2>
+                        <p class="text-xs text-app-light/60 font-mono mb-2" id="profilePhoneDisplay">--- --- ----</p>
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-md text-[9px] text-white font-bold uppercase tracking-wider">
+                            <i class="fas fa-crown text-yellow-400"></i> VIP Member
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editable Form -->
+            <h3 class="text-sm font-bold text-white/90 mb-4 px-1 uppercase tracking-wider text-xs">ព័ត៌មានរថយន្តរបស់អ្នក</h3>
+            <div class="glass-card p-6 mb-8">
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-[10px] text-app-light/50 uppercase tracking-widest mb-2 ml-1">ឈ្មោះអតិថិជន</label>
+                        <input type="text" id="pName" class="glass-input w-full p-4 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-app-light/50 uppercase tracking-widest mb-2 ml-1">លេខទូរសព្ទ</label>
+                        <input type="tel" id="pPhone" class="glass-input w-full p-4 text-sm font-mono">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] text-app-light/50 uppercase tracking-widest mb-2 ml-1">ម៉ូដែល</label>
+                            <div class="relative">
+                                <select id="pModel" class="glass-input w-full p-4 text-sm appearance-none bg-transparent">
+                                    <option value="Ranger" class="bg-app-cardSolid">Ranger</option>
+                                    <option value="Everest" class="bg-app-cardSolid">Everest</option>
+                                    <option value="Raptor" class="bg-app-cardSolid">Raptor</option>
+                                    <option value="Territory" class="bg-app-cardSolid">Territory</option>
+                                </select>
+                                <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-white/50 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-app-light/50 uppercase tracking-widest mb-2 ml-1">ស្លាកលេខ</label>
+                            <input type="text" id="pPlate" placeholder="ឧ. 2BC-1234" class="glass-input w-full p-4 text-sm font-mono uppercase">
+                        </div>
+                    </div>
+                </div>
+                <button onclick="saveProfile()" class="w-full btn-electric py-3.5 mt-8 text-sm shadow-glow">រក្សាទុកទិន្នន័យ</button>
+            </div>
+        </div>
+
+        <!-- ==================== SUBPAGES (Simple implementations for completeness) ==================== -->
+        <div id="page-service" class="page px-5 pt-2">
+            <div class="space-y-3" id="serviceListContainer"></div>
+        </div>
+        <div id="page-maintenance" class="page px-5 pt-2">
+            <div class="space-y-3" id="maintenanceListContainer"></div>
+        </div>
+        <div id="page-knowledge" class="page px-5 pt-2">
+            <div class="space-y-4" id="knowledgeListContainer"></div>
+        </div>
+        <div id="page-contact" class="page px-5 pt-2">
+            <div class="glass-card p-6 text-center mb-6">
+                <div class="w-20 h-20 mx-auto rounded-full bg-app-blue/10 flex items-center justify-center mb-4">
+                    <i class="fas fa-headset text-3xl text-app-blue"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">ត្រូវការជំនួយ?</h3>
+                <p class="text-xs text-app-light/60">ក្រុមការងារយើងរង់ចាំបម្រើលោកអ្នកជានិច្ច។</p>
+            </div>
+            <div class="space-y-3">
+                <a href="tel:081767420" class="glass-card p-4 flex items-center gap-4 hover:bg-white/5 transition border-l-4 border-l-green-500">
+                    <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xl"><i class="fas fa-phone-alt"></i></div>
+                    <div><h4 class="text-sm font-bold text-white">ទូរស័ព្ទ</h4><p class="text-xs text-white/50 font-mono">081 767 420</p></div>
+                </a>
+                <a href="https://t.me/oun_pv" target="_blank" class="glass-card p-4 flex items-center gap-4 hover:bg-white/5 transition border-l-4 border-l-[#2AABEE]">
+                    <div class="w-12 h-12 rounded-full bg-[#2AABEE]/20 flex items-center justify-center text-[#2AABEE] text-xl"><i class="fab fa-telegram-plane ml-[-2px]"></i></div>
+                    <div><h4 class="text-sm font-bold text-white">Telegram</h4><p class="text-xs text-white/50 font-mono">@oun_pv</p></div>
+                </a>
+            </div>
+        </div>
+        <div id="page-location" class="page px-5 pt-2">
+            <div class="glass-card overflow-hidden mb-6 p-2">
+                <div class="w-full h-[300px] rounded-[20px] bg-white/5 relative overflow-hidden">
+                    <!-- Fake map img for demo -->
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80" class="w-full h-full object-cover opacity-50 mix-blend-luminosity filter contrast-125">
+                    <div class="absolute inset-0 bg-app-blue/10"></div>
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                        <div class="w-12 h-12 bg-app-blue rounded-full flex items-center justify-center shadow-glow mb-2 animate-bounce">
+                            <i class="fas fa-map-marker-alt text-xl text-white"></i>
+                        </div>
+                        <div class="bg-black/80 backdrop-blur-md px-4 py-2 rounded-xl shadow-glass text-xs font-bold text-white whitespace-nowrap border border-white/10">Cheang Oun Garage</div>
+                    </div>
+                </div>
+            </div>
+            <a href="https://maps.app.goo.gl/pw1rjyVv6ymswjf6" target="_blank" class="btn-electric w-full py-4 flex items-center justify-center gap-3">
+                <i class="fas fa-location-arrow"></i> បើកក្នុង Google Maps
+            </a>
+        </div>
+
+    </main>
+
+    <!-- ==================== BOTTOM NAVIGATION (Sleek Glass Bar) ==================== -->
+    <nav id="bottomNav" class="fixed bottom-0 w-full max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl z-40 hidden pb-safe">
+        <div class="m-4 rounded-[28px] nav-glass h-[72px] flex justify-around items-center px-2">
+            <button onclick="navTo('home')" class="nav-item active flex flex-col items-center justify-center w-16 h-full text-white/40 transition-colors" data-target="home">
+                <i class="fas fa-home text-xl mb-1.5 transition-all"></i>
+                <span class="text-[9px] font-medium tracking-wide">ទំព័រដើម</span>
+            </button>
+            <button onclick="navTo('service')" class="nav-item flex flex-col items-center justify-center w-16 h-full text-white/40 transition-colors" data-target="service">
+                <i class="fas fa-wrench text-xl mb-1.5 transition-all"></i>
+                <span class="text-[9px] font-medium tracking-wide">សេវាកម្ម</span>
+            </button>
+            <!-- Middle Booking Button (Elevated) -->
+            <button onclick="navTo('booking')" class="nav-item flex flex-col items-center justify-center w-16 h-full text-white/40 transition-colors relative" data-target="booking">
+                <div class="absolute -top-5 w-12 h-12 bg-gradient-to-br from-app-blue to-bluedark rounded-full flex items-center justify-center text-white shadow-glow border-2 border-[#020611] transition-transform active:scale-95">
+                    <i class="far fa-calendar-check text-lg"></i>
+                </div>
+                <span class="text-[9px] font-medium tracking-wide mt-6">កក់សេវា</span>
+            </button>
+            <button onclick="navTo('parts')" class="nav-item flex flex-col items-center justify-center w-16 h-full text-white/40 transition-colors" data-target="parts">
+                <i class="fas fa-box-open text-xl mb-1.5 transition-all"></i>
+                <span class="text-[9px] font-medium tracking-wide">គ្រឿង</span>
+            </button>
+            <button onclick="navTo('profile')" class="nav-item flex flex-col items-center justify-center w-16 h-full text-white/40 transition-colors" data-target="profile">
+                <i class="far fa-user text-xl mb-1.5 transition-all"></i>
+                <span class="text-[9px] font-medium tracking-wide">គណនី</span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Custom Toast -->
+    <div id="toast"><i class="fas fa-info-circle mr-2"></i> <span id="toastMsg">សារលោត</span></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'cheang-oun-app';
+        let firebaseConfig = {};
+        try { if (typeof __firebase_config !== 'undefined') firebaseConfig = JSON.parse(__firebase_config); } catch(e) {}
+
+        let db, auth, userId;
+
+        // --- MOCK DATA ---
+        const services = [
+            { id: 's1', name: 'ប្តូរប្រេងម៉ាស៊ីន', en: 'Oil Change' },
+            { id: 's2', name: 'ពិនិត្យប្រព័ន្ធហ្វ្រាំង', en: 'Brake Check' },
+            { id: 's3', name: 'ស្កេនកូដ', en: 'FORScan Diagnostics' }
+        ];
+        const partsCategories = [
+            { icon: 'fa-filter', name: 'តម្រងប្រេង', en: 'Oil Filter' },
+            { icon: 'fa-dot-circle', name: 'ហ្វ្រាំង', en: 'Brake Parts' }
+        ];
+
+        // --- EXPOSED FUNCTIONS ---
+        window.startApp = function() {
+            document.getElementById('splashScreen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splashScreen').style.display = 'none';
+                document.getElementById('mainHeader').classList.remove('hidden');
+                setTimeout(() => document.getElementById('mainHeader').classList.remove('opacity-0'), 50);
+                document.getElementById('mainContent').classList.remove('hidden');
+                document.getElementById('bottomNav').classList.remove('hidden');
+            }, 700);
+        };
+
+        window.navTo = function(pageId) {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            // Header logic
+            if(pageId === 'home') {
+                document.getElementById('mainHeader').classList.remove('hidden');
+                document.getElementById('subHeader').classList.add('hidden');
+            } else {
+                document.getElementById('mainHeader').classList.add('hidden');
+                document.getElementById('subHeader').classList.remove('hidden');
+                let titles = { 'service': 'សេវាកម្ម', 'booking': 'កក់សេវាកម្ម', 'parts': 'គ្រឿងបន្លាស់', 'profile': 'គណនី' };
+                document.getElementById('subHeaderTitle').innerText = titles[pageId] || '';
+            }
+
+            // Page & Nav logic
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.target === pageId) item.classList.add('active');
+            });
+        };
+
+        window.navToSub = function(pageId, title) {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            document.getElementById('mainHeader').classList.add('hidden');
+            document.getElementById('subHeader').classList.remove('hidden');
+            document.getElementById('subHeaderTitle').innerText = title;
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        };
+
+        window.goBack = function() { navTo('home'); };
+
+        window.showToast = function(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        // --- RENDER LOGIC ---
+        function renderUI() {
+            // Service List & Checkboxes
+            let srvHTML = '', bookHTML = '';
+            services.forEach((s, idx) => {
+                srvHTML += `
+                    <div class="glass-card p-5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition" onclick="navTo('booking')">
+                        <div>
+                            <h4 class="text-sm font-bold text-white">${s.name}</h4>
+                            <p class="text-[10px] text-white/50 font-mono mt-0.5">${s.en}</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-app-blue text-xs"></i>
+                    </div>`;
+                bookHTML += `
+                    <label class="glass-card p-5 flex items-center justify-between cursor-pointer premium-checkbox hover:bg-white/5 transition">
+                        <div>
+                            <h4 class="text-sm font-bold text-white">${s.name}</h4>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="bService" value="${s.name}" class="peer sr-only" ${idx===0?'checked':''}>
+                            <div class="w-6 h-6 rounded-md border-2 border-white/20 flex items-center justify-center transition-all bg-white/5">
+                                <i class="fas fa-check text-white text-xs opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                            </div>
+                        </div>
+                    </label>`;
+            });
+            if(document.getElementById('serviceListContainer')) document.getElementById('serviceListContainer').innerHTML = srvHTML;
+            if(document.getElementById('bookingServiceCheckboxes')) document.getElementById('bookingServiceCheckboxes').innerHTML = bookHTML;
+
+            // Parts List
+            let partsHTML = '';
+            partsCategories.forEach(c => {
+                partsHTML += `
+                    <div class="glass-card p-5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                                <i class="fas ${c.icon} text-app-blue text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">${c.name}</h4>
+                                <p class="text-[10px] text-white/50 font-mono mt-0.5">${c.en}</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-white/30 text-xs"></i>
+                    </div>`;
+            });
+            if(document.getElementById('partsCategoryList')) document.getElementById('partsCategoryList').innerHTML = partsHTML;
+
+            // Booking Date Min
+            const d = new Date(); d.setDate(d.getDate() + 1);
+            const bookDateEl = document.getElementById('bookDate');
+            if(bookDateEl) bookDateEl.min = d.toISOString().split('T')[0];
+        }
+
+        // --- FIREBASE & DATA LOGIC ---
+        window.saveProfile = async function() {
+            const name = document.getElementById('pName').value;
+            const phone = document.getElementById('pPhone').value;
+            const model = document.getElementById('pModel').value;
+            const plate = document.getElementById('pPlate').value.toUpperCase();
+
+            if(!name || !plate) { showToast('សូមបំពេញឈ្មោះ និងស្លាកលេខ'); return; }
+
+            // Update UI locally first for fast feel
+            updateProfileUI({name, phone, model, plate});
+
+            if(!db || !userId) { showToast('រក្សាទុក (Offline Mode)'); return; }
+
+            try {
+                const userRef = doc(db, 'artifacts', appId, 'users', userId, 'profile', 'default');
+                await setDoc(userRef, { name, phone, model, plate }, { merge: true });
+                showToast('រក្សាទុកទិន្នន័យជោគជ័យ!');
+            } catch(e) { console.error(e); showToast('មានបញ្ហាក្នុងការរក្សាទុក'); }
+        };
+
+        function updateProfileUI(data) {
+            if(data.name) {
+                document.getElementById('profileNameDisplay').innerText = data.name;
+                document.getElementById('homeUserName').innerText = data.name;
+            }
+            if(data.phone) document.getElementById('profilePhoneDisplay').innerText = data.phone;
+            if(data.plate) {
+                document.getElementById('bookingVehicleName').innerText = `Ford ${data.model}`;
+                document.getElementById('bookingVehiclePlate').innerText = data.plate;
+                const banner = document.getElementById('setupProfileBanner');
+                if(banner) banner.classList.add('hidden');
+            }
+        }
+
+        window.submitBooking = async function() {
+            const date = document.getElementById('bookDate').value;
+            const time = document.getElementById('bookTime').value;
+            if(!date || !time) { showToast('សូមជ្រើសរើសថ្ងៃ និងម៉ោង'); return; }
+
+            const selectedServices = Array.from(document.querySelectorAll('input[name="bService"]:checked')).map(cb => cb.value);
+            if(selectedServices.length === 0) { showToast('សូមជ្រើសរើសសេវាកម្ម'); return; }
+
+            if(!db || !userId) { 
+                showToast('ការកក់ជោគជ័យ (Offline)'); 
+                setTimeout(() => navTo('home'), 1500);
+                return; 
+            }
+            
+            try {
+                const bRef = collection(db, 'artifacts', appId, 'users', userId, 'bookings');
+                await addDoc(bRef, {
+                    services: selectedServices,
+                    date: date, time: time, status: 'pending',
+                    createdAt: new Date().toISOString()
+                });
+                showToast('ការកក់បានបញ្ជូនជោគជ័យ!');
+                setTimeout(() => navTo('home'), 1500);
+            } catch(e) { console.error(e); showToast('បញ្ហាបច្ចេកទេស'); }
+        };
+
+        async function init() {
+            renderUI();
+            
+            // TMA Setup
+            if(window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+                const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
+                if(tgUser && tgUser.first_name) {
+                    document.getElementById('pName').value = tgUser.first_name;
+                    updateProfileUI({name: tgUser.first_name});
+                }
+            }
+
+            // Firebase Init
+            if(Object.keys(firebaseConfig).length > 0) {
+                try {
+                    db = getFirestore(initializeApp(firebaseConfig));
+                    auth = getAuth();
+                    if (typeof __initial_auth_token !== 'undefined') {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    userId = auth.currentUser.uid;
+                    
+                    const docSnap = await getDoc(doc(db, 'artifacts', appId, 'users', userId, 'profile', 'default'));
+                    if(docSnap.exists()) {
+                        const data = docSnap.data();
+                        document.getElementById('pName').value = data.name || '';
+                        document.getElementById('pPhone').value = data.phone || '';
+                        document.getElementById('pModel').value = data.model || 'Ranger';
+                        document.getElementById('pPlate').value = data.plate || '';
+                        updateProfileUI(data);
+                    } else {
+                        const banner = document.getElementById('setupProfileBanner');
+                        if(banner) banner.classList.remove('hidden');
+                    }
+                } catch(e) { console.error("Firebase Auth Error", e); }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
