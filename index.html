@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#061a33">
+<title>FordTech Academy — Full Smart Learning</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700;800&display=swap');
+:root{color-scheme:dark;--bg:#061426;--panel:#0b2038;--line:#1d3c60;--blue:#0066b3;--cyan:#54b9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#0b2d53 0%,#061426 48%,#040d19 100%);color:#e5edf7;font-family:'Kantumruy Pro',sans-serif;transition:background .2s,color .2s}
+body.light-mode{color-scheme:light;--bg:#f3f7fc;--panel:#ffffff;--line:#d7e1ed;background:#f3f7fc;color:#172033}
+body.light-mode .glass,body.light-mode .card{background:#fff!important;color:#172033!important;border-color:#d7e1ed!important;box-shadow:0 10px 30px #10213b0c}
+body.light-mode .field{background:#fff!important;color:#172033!important;border-color:#cbd5e1!important}
+.glass{background:linear-gradient(145deg,rgba(12,36,64,.97),rgba(6,20,38,.99));border:1px solid #244d78;box-shadow:0 22px 70px #0005;backdrop-filter:blur(18px)}
+.btn{transition:.2s;border-radius:12px}.btn:hover{transform:translateY(-1px);filter:brightness(1.12)}
+.field{width:100%;background:#07111f;border:1px solid #263a53;border-radius:12px;padding:11px 13px;outline:none;color:#e5edf7}
+.field:focus{border-color:#3b82f6;box-shadow:0 0 0 3px #3b82f622}
+.navbtn{padding:10px 13px;border-radius:12px;color:#93a4bb;display:flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap}
+.navbtn.active,.navbtn:hover{background:linear-gradient(90deg,#123c68,#0b2948);color:#d6ecff;border:1px solid #24598a}
+.tag{border:1px solid #29425e;background:#10233a;color:#a9c7e9;border-radius:999px;padding:5px 10px;font-size:11px}
+.card{background:linear-gradient(150deg,#0d223a,#09192b);border:1px solid #1b3b5c;border-radius:18px;transition:.2s}
+.card:hover{border-color:#37618e;transform:translateY(-2px)}
+::-webkit-scrollbar{width:7px}::-webkit-scrollbar-thumb{background:#29425e;border-radius:10px}
+.ford-wordmark{display:inline-flex;align-items:center;justify-content:center;border:2px solid #cbd5e1;border-radius:50%;padding:5px 15px;font-family:Arial,sans-serif;font-style:italic;font-weight:900;letter-spacing:.04em;color:#eaf6ff;box-shadow:inset 0 0 0 2px #174b83;background:linear-gradient(135deg,#07539a,#092c57)}
+@media(min-width:900px){.app-shell{max-width:1320px;margin:22px auto;border:1px solid #1c3047;border-radius:26px;overflow:hidden;min-height:calc(100vh - 44px)}}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="loginScreen" class="min-h-screen flex items-center justify-center p-5">
+ <div class="w-full max-w-md">
+  <div class="text-center mb-8 rounded-3xl p-7 border border-blue-900/70 shadow-2xl bg-gradient-to-br from-blue-950 to-slate-900">
+   <div class="ford-wordmark mx-auto">FORD</div>
+   <p class="text-sky-300 text-[10px] tracking-[.28em] mt-5">TECHNOLOGY • INNOVATION • FUTURE</p>
+   <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">FordTech <span class="text-sky-300">Academy</span></h1>
+   <p class="text-blue-100/75 text-sm mt-2">រៀនបច្ចេកវិទ្យា។ បង្កើតអនាគត។</p>
+   <div class="flex flex-wrap justify-center gap-2 mt-5"><span class="tag">✦ AI Learning</span><span class="tag">Secure Access</span><span class="tag">Tech Skills</span></div>
+  </div>
+
+  <div class="glass rounded-3xl p-6 sm:p-8">
+    <h2 class="text-xl font-bold">សូមស្វាគមន៍ 👋</h2>
+    <p class="text-slate-400 text-sm mt-1 mb-5">សូមបញ្ចូល Username និង Password ដើម្បីចូលប្រើប្រាស់។</p>
+
+    <form id="customLoginForm" onsubmit="handleCustomLogin(event)" class="space-y-4">
+        <div>
+            <label class="text-xs text-slate-400 block mb-2">ឈ្មោះអ្នកប្រើប្រាស់ (Username)</label>
+            <input id="customUsername" class="field" placeholder="admin ឬ staff" autocomplete="username" required>
+        </div>
+        <div>
+            <label class="text-xs text-slate-400 block mb-2">លេខសម្ងាត់ (Password)</label>
+            <input id="customPassword" class="field" type="password" placeholder="បញ្ចូលលេខសម្ងាត់" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn w-full rounded-xl py-3 font-bold bg-gradient-to-r from-blue-700 to-sky-500 text-white flex items-center justify-center gap-2">
+            <i data-lucide="lock-keyhole" class="w-4 h-4"></i> ចូលប្រព័ន្ធ (Login)
+        </button>
+    </form>
+    <p id="loginErrorMsg" class="text-rose-400 text-xs mt-3 hidden">ឈ្មោះអ្នកប្រើប្រាស់ ឬ លេខសម្ងាត់មិនត្រឹមត្រូវទេ!</p>
+  </div>
+ </div>
+</div>
+
+<!-- Main App Shell -->
+<div id="appShell" class="hidden app-shell">
+ <div class="min-h-screen lg:min-h-0 lg:flex">
+  <aside class="hidden lg:flex w-64 shrink-0 flex-col bg-[#091523] border-r border-[#1d3047] p-5">
+   <div class="flex items-center gap-3 mb-10">
+    <div class="ford-wordmark !text-xs !px-2 !py-2">FORD</div>
+    <div><div class="font-extrabold text-sm">FordTech Academy</div><div class="text-[10px] tracking-widest text-sky-300">SMART LEARNING HUB</div></div>
+   </div>
+   <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-3">Workspace</p>
+   <nav class="space-y-1">
+    <button class="navbtn active w-full" data-page="home"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> ទំព័រដើម</button>
+    <button class="navbtn w-full" data-page="lessons"><i data-lucide="play-square" class="w-4 h-4"></i> មេរៀនទាំងអស់</button>
+    <button class="navbtn w-full" data-page="favorites"><i data-lucide="bookmark" class="w-4 h-4"></i> មេរៀនចំណូលចិត្ត</button>
+    <button class="navbtn w-full" data-page="history"><i data-lucide="history" class="w-4 h-4"></i> បានមើលរួច</button>
+    <button class="navbtn w-full admin-only" data-page="admin"><i data-lucide="shield-check" class="w-4 h-4"></i> គ្រប់គ្រង Admin</button>
+   </nav>
+  </aside>
+  
+  <main class="min-w-0 flex-1">
+   <header class="sticky top-0 z-20 bg-[#081321]/95 backdrop-blur-xl border-b border-[#1d3047] px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+     <div><div class="font-bold text-sm sm:text-base" id="pageTitle">ទំព័រដើម</div><div class="text-[11px] text-slate-500" id="currentUsername">Ford User</div></div>
+    </div>
+    <div class="flex items-center gap-2">
+     <button id="themeToggle" onclick="toggleThemeMode()" class="tag flex items-center gap-1 cursor-pointer" title="Dark / Light mode"><i data-lucide="sun-moon" class="w-3 h-3"></i><span id="themeLabel">Dark</span></button>
+     <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center font-bold text-slate-950" id="userAvatar">A</div>
+     <button id="logoutBtn" onclick="logoutApp()" title="Logout" class="p-2 text-slate-400 hover:text-rose-300"><i data-lucide="log-out" class="w-4 h-4"></i></button>
+    </div>
+   </header>
+   
+   <div id="pageContent" class="p-4 sm:p-6 lg:p-8 space-y-6"></div>
+   <footer class="px-6 py-5 border-t border-[#1d3047] text-xs text-slate-500 flex justify-between"><span>© 2026 FordTech Academy · Learning Hub</span><span>Full Version ✦</span></footer>
+  </main>
+ </div>
+</div>
+
+<!-- Lesson Modal -->
+<div id="lessonModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm p-3 sm:p-6 items-center justify-center flex">
+ <div class="glass rounded-3xl w-full max-w-3xl max-h-[92vh] overflow-y-auto p-5 sm:p-6">
+  <div class="flex justify-between items-start border-b border-[#1d3047] pb-3 mb-4">
+   <div><span id="modalCategory" class="tag">មេរៀន</span><h2 id="modalTitle" class="text-xl sm:text-2xl font-bold mt-2"></h2></div>
+   <button onclick="closeLesson()" class="p-2 rounded-xl hover:bg-slate-800"><i data-lucide="x"></i></button>
+  </div>
+  <div class="space-y-4">
+   <div id="modalImageContainer" class="hidden mb-3"><img id="modalImg" class="w-full h-48 object-cover rounded-xl border border-slate-700" alt="Lesson Image"></div>
+   <p id="modalDesc" class="text-sm text-slate-300 leading-7 whitespace-pre-wrap"></p>
+   <div class="flex gap-2">
+    <button id="markCompleteBtn" onclick="markCompleted()" class="btn rounded-xl px-4 py-2 bg-emerald-600 text-sm font-semibold flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> សម្គាល់ថាបានរៀនរួច</button>
+    <button id="modalFavoriteBtn" onclick="toggleFavFromModal()" class="btn rounded-xl px-4 py-2 bg-slate-800 text-sm font-semibold flex items-center gap-2"><i data-lucide="bookmark" class="w-4 h-4"></i> ចំណូលចិត្ត</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const starterLessons=[
+ {id:'battery-reset',title:'ការថែទាំ Battery ឱ្យបានត្រឹមត្រូវ',category:'Hardware',level:'Beginner',duration:'6 នាទី',desc:'ស្វែងយល់ពីការថែទាំថ្មឧបករណ៍ឱ្យបានត្រឹមត្រូវ។\n\n• ពិនិត្យសុខភាពថ្មតាមឧបករណ៍ដែលគាំទ្រ。\n• ប្រើឆ្នាំងសាក និងខ្សែដែលមានគុណភាព。\n• ជៀសវាងកម្ដៅខ្លាំង និងការទុកថ្មអស់រយៈពេលយូរ។',image:''},
+ {id:'computer-basics',title:'មូលដ្ឋានគ្រឹះកុំព្យូទ័រ',category:'Computer',level:'Beginner',duration:'10 នាទី',desc:'រៀនពីផ្នែកសំខាន់ៗរបស់កុំព្យូទ័រ៖ CPU, RAM, Storage និងប្រព័ន្ធប្រតិបត្តិការ។',image:''},
+ {id:'html-start',title:'ចាប់ផ្តើមរៀន HTML',category:'Coding',level:'Beginner',duration:'12 នាទី',desc:'HTML ប្រើសម្រាប់រៀបចំរចនាសម្ព័ន្ធគេហទំព័រ និងកូដพื้นฐาน។',image:''}
+];
+
+let lessons=JSON.parse(localStorage.getItem('ta_lessons')||'null')||starterLessons;
+let favorites=JSON.parse(localStorage.getItem('ta_favorites')||'[]');
+let completed=JSON.parse(localStorage.getItem('ta_completed')||'[]');
+let history=JSON.parse(localStorage.getItem('ta_history')||'[]');
+let logs=JSON.parse(localStorage.getItem('ta_logs')||'[]');
+let currentUser='',currentRole='user',currentLesson=null,currentPage='home',uploadedImgBase64='';
+
+function handleCustomLogin(event) {
+    event.preventDefault();
+    const user = $('customUsername').value.trim().toLowerCase();
+    const pass = $('customPassword').value.trim();
+    const errorMsg = $('loginErrorMsg');
+
+    const accounts = {
+        "admin": { pass: "admin1234", role: "admin", name: "Ford Admin" },
+        "staff": { pass: "staff1234", role: "user", name: "Ford Technician (កូនជាង)" }
+    };
+
+    if(accounts[user] && accounts[user].pass === pass) {
+        errorMsg.classList.add('hidden');
+        currentUser = accounts[user].name;
+        currentRole = accounts[user].role;
+        
+        $('loginScreen').classList.add('hidden');
+        $('appShell').classList.remove('hidden');$('currentUsername').innerText = currentUser;
+        $('userAvatar').innerText = user.charAt(0).toUpperCase();
+
+        if(currentRole !== 'admin') {
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+        }
+        recordLog(currentUser, 'Login ចូលប្រព័ន្ធ');
+        go('home');
+        renderIcons();
+    } else {
+        errorMsg.classList.remove('hidden');
+    }
+}
+
+function logoutApp() { location.reload(); }
+
+function go(page){
+    if(page==='admin' && currentRole!=='admin') { alert('គ្មានសិទ្ធិចូលទីនេះទេ!'); return; }
+    currentPage=page;
+    document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+    let titles={home:'ទំព័រដើម',lessons:'មេរៀនទាំងអស់',favorites:'មេរៀនចំណូលចិត្ត',history:'ប្រវត្តិការរៀន',admin:'គ្រប់គ្រង Admin'};
+    $('pageTitle').textContent=titles[page]||page;
+    renderPage();
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function recordLog(user, action) {
+    logs.unshift({user, action, time: new Date().toLocaleTimeString()});
+    logs = logs.slice(0, 50);
+    localStorage.setItem('ta_logs', JSON.stringify(logs));
+}
+
+function lessonCard(l){
+    let done=completed.includes(l.id), fav=favorites.includes(l.id);
+    return `<article class="card p-4 sm:p-5 flex flex-col justify-between">
+        <div>
+            ${l.image ? `<img src="${l.image}" class="w-full h-36 object-cover rounded-xl mb-3 border border-slate-700">` : ''}
+            <div class="flex flex-wrap gap-2 mb-2"><span class="tag">${l.category}</span>${done?'<span class="tag text-emerald-300">បានរៀនរួច ✓</span>':''}</div>
+            <h3 class="font-bold leading-6 text-white">${l.title}</h3>
+            <p class="text-xs text-slate-400 mt-2 line-clamp-2">${l.desc}</p>
+        </div>
+        <div class="flex items-center justify-between mt-4 pt-3 border-t border-slate-800">
+            <span class="text-[11px] text-slate-500">${l.duration||'មិនកំណត់'}</span>
+            <div class="flex gap-2">
+                <button class="p-2 rounded-lg hover:bg-slate-800 ${fav?'text-cyan-300':'text-slate-500'}" onclick="toggleFav('${l.id}')"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                <button class="btn rounded-lg bg-blue-600/20 text-blue-300 px-3 py-2 text-xs font-bold" onclick="openLesson('${l.id}')">រៀនឥឡូវ</button>
+            </div>
+        </div>
+    </article>`;
+}
+
+function renderPage(){
+    let root=$('pageContent');
+    if(currentPage==='home'){
+        let pct = lessons.length ? Math.round((completed.length/lessons.length)*100) : 0;
+        root.innerHTML=`
+        <section class="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-blue-950 to-[#0b1a2b] border border-blue-900 shadow-xl">
+            <span class="tag border-sky-700 text-sky-200">✦ FORDTECH SMART LEARNING</span>
+            <h1 class="text-2xl sm:text-3xl font-extrabold mt-3 text-white">រៀនជំនាញបច្ចេកវិទ្យា និងរថយន្ត Ford</h1>
+            <p class="text-slate-300 text-sm mt-2 max-w-xl">ស្វែងយល់ពីប្រព័ន្ធកុំព្យូទ័រ Coding អេឡិចត្រូនិក និងបច្ចេកទេសថ្មីៗតាមល្បឿនរបស់អ្នក។</p>
+            <button onclick="go('lessons')" class="btn mt-4 px-5 py-2.5 bg-blue-600 text-sm font-bold text-white shadow-lg">ស្វែងរកមេរៀនទាំងអស់</button>
+        </section>
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="card p-4"><div class="text-xs text-slate-400">មេរៀនសរុប</div><div class="text-2xl font-extrabold mt-1 text-white">${lessons.length}</div></div>
+            <div class="card p-4"><div class="text-xs text-slate-400">បានរៀនរួច</div><div class="text-2xl font-extrabold mt-1 text-emerald-400">${completed.length}</div></div>
+            <div class="card p-4"><div class="text-xs text-slate-400">ចំណូលចិត្ត</div><div class="text-2xl font-extrabold mt-1 text-cyan-400">${favorites.length}</div></div>
+            <div class="card p-4"><div class="text-xs text-slate-400">វឌ្ឍនភាព</div><div class="text-2xl font-extrabold mt-1 text-sky-400">${pct}%</div></div>
+        </section>
+        <section>
+            <div class="flex justify-between items-center mb-4"><h2 class="text-lg font-bold text-white">មេរៀនណែនាំ</h2><button onclick="go('lessons')" class="text-xs text-blue-400 hover:underline">មើលទាំងអស់ →</button></div>
+            <div class="grid md:grid-cols-3 gap-4">${lessons.slice(0,3).map(lessonCard).join('')}</div>
+        </section>`;
+    } else if(currentPage==='lessons' || currentPage==='favorites' || currentPage==='history'){
+        let list = currentPage==='favorites' ? lessons.filter(l=>favorites.includes(l.id)) : currentPage==='history' ? history.map(id=>lessons.find(l=>l.id===id)).filter(Boolean) : lessons;
+        root.innerHTML=`
+        <div class="flex flex-col sm:flex-row justify-between gap-3 mb-4">
+            <h1 class="text-xl font-bold text-white">${currentPage==='favorites'?'មេរៀនចំណូលចិត្ត':currentPage==='history'?'ប្រវត្តិបានមើល':'បណ្ណាល័យមេរៀនទាំងអស់'}</h1>
+            <input id="searchLessons" oninput="filterLessonsList()" class="field sm:w-64 text-xs" placeholder="ស្វែងរកមេរៀន...">
+        </div>
+        <div id="dynamicLessonGrid" class="grid md:grid-cols-3 gap-4">${list.map(lessonCard).join('') || '<p class="text-slate-500 text-sm py-8">មិនទាន់មានទិន្នន័យនៅទីនេះទេ។</p>'}</div>`;
+    } else if(currentPage==='admin'){
+        root.innerHTML=`
+        <div class="grid lg:grid-cols-2 gap-6">
+            <div class="card p-5 space-y-4">
+                <h2 class="font-bold text-white text-base flex items-center gap-2"><i data-lucide="plus-circle" class="w-5 h-5 text-sky-400"></i> បន្ថែមមេរៀនថ្មីជាមួយរូបភាព</h2>
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">ចំណងជើងមេរៀន</label>
+                    <input id="adminTitle" class="field text-xs" placeholder="ឧ. ការជួសជុលប្រព័ន្ធໄຟរថយន្ត">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">ប្រភេទមេរៀន</label>
+                    <select id="adminCategory" class="field text-xs">
+                        <option>Computer</option><option>Coding</option><option>Electronics</option><option>Hardware</option><option>Security</option><option>Automotive</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">រយៈពេល</label>
+                    <input id="adminDuration" class="field text-xs" placeholder="ឧ. 10 នាទី">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">អាប់ឡូតរូបភាព (Image Upload)</label>
+                    <input type="file" id="adminImageFile" accept="image/*" onchange="handleImageUpload(event)" class="field text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500">
+                    <div id="previewContainer" class="mt-2 hidden"><img id="imagePreview" class="w-full h-32 object-cover rounded-xl border border-slate-700"></div>
+                </div>
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">ខ្លឹមសារមេរៀន</label>
+                    <textarea id="adminDesc" class="field text-xs h-28" placeholder="សរសេរពន្យល់លម្អិត..."></textarea>
+                </div>
+                <button onclick="addNewLessonFromAdmin()" class="btn bg-blue-600 w-full py-3 text-xs font-bold text-white shadow-lg">បង្ហោះមេរៀនចូលប្រព័ន្ធ</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="card p-5">
+                    <h2 class="font-bold text-white mb-3">គ្រប់គ្រងមេរៀនដែលមានស្រាប់ (${lessons.length})</h2>
+                    <div class="space-y-2 max-h-80 overflow-y-auto pr-1">
+                        ${lessons.map(l=>`
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+                                <div class="min-w-0 pr-2">
+                                    <p class="text-xs font-bold text-white truncate">${l.title}</p>
+                                    <span class="text-[10px] text-slate-400">${l.category} ·${l.duration||''}</span>
+                                </div>
+                                <button onclick="deleteLesson('${l.id}')" class="p-2 text-rose-400 hover:bg-rose-950/50 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="card p-5">
+                    <h2 class="font-bold text-white mb-3">Audit Logs (សកម្មភាព Admin)</h2>
+                    <div class="space-y-1.5 max-h-40 overflow-y-auto text-xs">
+                        ${logs.map(lg=>`<div class="flex justify-between border-b border-slate-800 pb-1.5 text-slate-300"><span><b>${lg.user}</b>:${lg.action}</span><span class="text-slate-500">${lg.time}</span></div>`).join('') || '<p class="text-slate-500">គ្មានសកម្មភាពថ្មី។</p>'}
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+    renderIcons();
+}
+
+function filterLessonsList() {
+    let q = $('searchLessons').value.toLowerCase();
+    let filtered = lessons.filter(l => l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q));
+    $('dynamicLessonGrid').innerHTML = filtered.map(lessonCard).join('') || '<p class="text-slate-500 text-sm">រកមិនឃើញមេរៀនទេ។</p>';
+    renderIcons();
+}
+
+function handleImageUpload(event) {
+    let file = event.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        uploadedImgBase64 = e.target.result;
+        $('imagePreview').src = uploadedImgBase64;
+        $('previewContainer').classList.remove('hidden');
+    }
+    reader.readAsDataURL(file);
+}
+
+function addNewLessonFromAdmin() {
+    let title = $('adminTitle').value.trim();
+    let category = $('adminCategory').value;
+    let duration = $('adminDuration').value.trim() || '5 នាទី';
+    let desc = $('adminDesc').value.trim();
+
+    if(!title || !desc) { alert('សូមបំពេញចំណងជើង និងខ្លឹមសារមេរៀន!'); return; }
+
+    let newLesson = {
+        id: 'lesson-' + Date.now(),
+        title,
+        category,
+        duration,
+        desc,
+        image: uploadedImgBase64
+    };
+
+    lessons.unshift(newLesson);
+    localStorage.setItem('ta_lessons', JSON.stringify(lessons));
+    recordLog('Admin', 'បានបន្ថែមមេរៀនថ្មី: ' + title);
+    
+    // Reset form
+    $('adminTitle').value = '';$('adminDesc').value = '';
+    $('adminDuration').value = '';$('adminImageFile').value = '';
+    uploadedImgBase64 = '';
+    $('previewContainer').classList.add('hidden');
+
+    alert('បានបន្ថែមមេរៀនជោគជ័យ!');
+    go('lessons');
+}
+
+function deleteLesson(id) {
+    let l = lessons.find(x => x.id === id);
+    if(!l || !confirm('តើអ្នកពិតជាចង់លុបមេរៀននេះមែនទេ?')) return;
+    lessons = lessons.filter(x => x.id !== id);
+    favorites = favorites.filter(x => x !== id);
+    completed = completed.filter(x => x !== id);
+    localStorage.setItem('ta_lessons', JSON.stringify(lessons));
+    localStorage.setItem('ta_favorites', JSON.stringify(favorites));
+    localStorage.setItem('ta_completed', JSON.stringify(completed));
+    recordLog('Admin', 'បានលុបមេរៀន ID: ' + id);
+    renderPage();
+}
+
+function openLesson(id){
+    currentLesson = lessons.find(x => x.id === id);
+    if(!currentLesson) return;
+    
+    // Add to history
+    history = [id, ...history.filter(x => x !== id)].slice(0, 20);
+    localStorage.setItem('ta_history', JSON.stringify(history));
+
+    $('modalTitle').textContent = currentLesson.title;
+    $('modalCategory').textContent = currentLesson.category;
+    $('modalDesc').textContent = currentLesson.desc;
+    
+    let imgContainer = $('modalImageContainer');
+    if(currentLesson.image) {
+        $('modalImg').src = currentLesson.image;
+        imgContainer.classList.remove('hidden');
+    } else {
+        imgContainer.classList.add('hidden');
+    }
+
+    let isDone = completed.includes(id);
+    $('markCompleteBtn').innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> ${isDone ? 'បានរៀនរួចរាល់ ✓' : 'សម្គាល់ថាបានរៀនរួច'}`;
+    
+    let isFav = favorites.includes(id);
+    $('modalFavoriteBtn').innerHTML = `<i data-lucide="bookmark" class="w-4 h-4"></i> ${isFav ? 'ដកចេញពីចំណូលចិត្ត' : 'ចំណូលចិត្ត'}`;
+
+    $('lessonModal').classList.remove('hidden');
+    renderIcons();
+}
+
+function closeLesson() { $('lessonModal').classList.add('hidden'); currentLesson = null; }
+
+function toggleFav(id) {
+    favorites = favorites.includes(id) ? favorites.filter(x => x !== id) : [id, ...favorites];
+    localStorage.setItem('ta_favorites', JSON.stringify(favorites));
+    renderPage();
+}
+
+function toggleFavFromModal() {
+    if(!currentLesson) return;
+    toggleFav(currentLesson.id);
+    let isFav = favorites.includes(currentLesson.id);
+    $('modalFavoriteBtn').innerHTML = `<i data-lucide="bookmark" class="w-4 h-4"></i> ${isFav ? 'ដកចេញពីចំណូលចិត្ត' : 'ចំណូលចិត្ត'}`;
+    renderIcons();
+}
+
+function markCompleted() {
+    if(!currentLesson) return;
+    let id = currentLesson.id;
+    if(!completed.includes(id)) {
+        completed.push(id);
+        localStorage.setItem('ta_completed', JSON.stringify(completed));
+    }
+    $('markCompleteBtn').innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> បានរៀនរួចរាល់ ✓`;
+    renderIcons();
+}
+
+function toggleThemeMode() {
+    document.body.classList.toggle('light-mode');
+    let isLight = document.body.classList.contains('light-mode');
+    $('themeLabel').textContent = isLight ? 'Light' : 'Dark';
+    localStorage.setItem('ta_theme', isLight ? 'light' : 'dark');
+}
+
+if(localStorage.getItem('ta_theme')==='light') {
+    document.body.classList.add('light-mode');
+    $('themeLabel').textContent = 'Light';
+}
+
+function renderIcons(){ if(window.lucide) lucide.createIcons(); }
+renderIcons();
+</script>
+</body>
+</html>
